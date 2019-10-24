@@ -21,11 +21,11 @@
         <div class="md-form mb-5">
           <i class="fas fa-user prefix grey-text"></i>
           <input type="text" id="form3" class="form-control validate">
-          <label data-error="wrong" data-success="right" for="form3">Title</label>
+          <label data-error="wrong" data-success="right" for="form3" id="title">Title</label>
         </div>
 
         <div class="form-group">
-                <label for="exampleFormControlTextarea1">Body</label>
+                <label for="exampleFormControlTextarea1" id="subject">Body</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
               </div>
 
@@ -90,21 +90,38 @@ xhttp.onload = function() {
 };
 
 
+/*
 function loadDoc() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
+  var http = new XMLHttpRequest();
+  http.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo1").innerHTML = this.responseText;
+      alert(http.responseText);
     }
   };
-  xhttp.open("POST", "posts1.json", true);
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send("fname=Henry&lname=Ford");
+  http.open("POST", "posts1.json", true);
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http.send(JSON.stringify({"title":"","body":""}));
 }
+*/
 
+function loadDoc(){
+    var http = new XMLHttpRequest();
+    var y = document.getElementById("title").value;
+    var z = document.getElementById("subject").value;
+    var postdata= "title=y&subject=z";
+    http.open("POST", "posts1.json", true);
 
+    
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.setRequestHeader("Content-length", postdata.length);
 
-
+    http.onreadystatechange = function() {
+        if(http.readyState == 4 && http.status == 200) {
+            alert(http.responseText);
+        }
+    }
+    http.send(postdata);
+}
 
 
 
