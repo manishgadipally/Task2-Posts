@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discussions</title>
+    <script src="jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+        <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Write here!</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <i class="fas fa-user prefix grey-text"></i>
+          <input type="text" id="form3" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="form3">Title</label>
+        </div>
+
+        <div class="form-group">
+                <label for="exampleFormControlTextarea1">Body</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" onclick="loadDoc()">Submit</button>
+            <button type="button" class="btn btn-danger" class="close" data-dismiss="modal" aria-label="Close">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center">
+
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalSubscriptionForm">Write a Post</button>
+    
+</div>
+ <div id="demo1"></div>       
+<div id="container"></div>
+    
+<script >
+var xhttp = new XMLHttpRequest();
+
+xhttp.open("GET", "posts1.json", true);
+xhttp.send();
+
+var commentsObj;
+xhttp.onload = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        let responseTxt= xhttp.responseText;
+        if(responseTxt){
+            var posts = JSON.parse(responseTxt);
+            var divContent="" ;
+            for(var i=0; i< posts.length;i++){
+                 divContent +=  `<div><h2>userID:`+ posts[i].userId +`</h2>
+                                <h3>postId:`+ posts[i].postId +`</h3>
+                              <h4>Title:`+posts[i].title+`</h4>
+                                  <p> Body:`+posts[i].body+`</p>
+                                  <div  id = "commentsDiv`+ posts[i].postId+`"><b>Comments:</b></div>  
+                                        
+                                <hr>
+                            </div>`;             
+            }
+            document.getElementById("container").innerHTML =  divContent ;
+            var xhr= new XMLHttpRequest();
+            xhr.open("GET", "comments.json", true);
+            xhr.send();
+            xhr.onload = function() {
+                if(this.readyState==4 && this.status==200){
+                    var commentTxt= xhr.responseText;
+                    if(commentTxt){
+                    commentsObj = JSON.parse(commentTxt); 
+                    for(var j=0;j<commentsObj.length;j++){
+                    var commentsDiv= document.getElementById("commentsDiv" + commentsObj[j].postId);
+                    commentsDiv.innerHTML += `<p class="commentPara">`+ commentsObj[j].comment + `</p> <hr class = "commentUl">`;
+                    }         
+                    }
+                }     
+            }
+        }
+    }
+};
+
+
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo1").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("POST", "posts1.json", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("fname=Henry&lname=Ford");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>

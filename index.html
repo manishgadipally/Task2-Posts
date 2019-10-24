@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="jquery-3.3.1.min.js"></script>
+    <title>Discussions</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id= "main">
+        
+        <button class="button button3" onclick="div_show()">+</button>
+<div id="container">   
+</div>
+    
+</div>
+
+
+
+<script >
+$(document).ready(function() {
+   $.getJSON('posts1.json', function(posts) {
+                for(var i=0; i< posts.length;i++){
+                  $('#container').append('<h1> UserId: ' + posts[i].userId + '</h1>');      
+                  $('#container').append('<h2>PostId : ' + posts[i].postId+ '</h2>');
+                  $('#container').append('<h4>Title: ' + posts[i].title+ '</h4>');
+                  $('#container').append('<p>Body: ' + posts[i].body+ '</p>');
+                  $('#container').append('<div  id = #commentsDiv'+ posts[i].postId + '</div>');
+                  $('#container').append('<hr>');
+                }
+    $.getJSON('comments.json', function(commentsObj){
+        for(var j=0;j< commentsObj.length; j++){
+            $('#commentsDiv' + commentsObj[j].postId).append('<p>'+ commentsObj[j].comment + '</p>');
+                }
+            })
+        
+    });
+});
+
+
+/*    
+var xhttp = new XMLHttpRequest();
+
+xhttp.open("GET", "posts1.json", true);
+xhttp.send();
+
+var commentsObj;
+xhttp.onload = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        let responseTxt= xhttp.responseText;
+        if(responseTxt){
+            var posts = JSON.parse(responseTxt);
+            var divContent="" ;
+            for(var i=0; i< posts.length;i++){
+                 divContent +=  `<div><h2>userID:`+ posts[i].userId +`</h2>
+                                <h3>postId:`+ posts[i].postId +`</h3>
+                              <h4>Title:`+posts[i].title+`</h4>
+                                  <p> Body:`+posts[i].body+`</p>
+                                  <div  id = "commentsDiv`+ posts[i].postId+`""><h3>Comments:-</h3></div>         
+                                <hr>
+                            </div>`;             
+            }
+            document.getElementById("container").innerHTML =  divContent ;
+            var xhr= new XMLHttpRequest();
+            xhr.open("GET", "comments.json", true);
+            xhr.send();
+            xhr.onload = function() {
+                if(this.readyState==4 && this.status==200){
+                    var commentTxt= xhr.responseText;
+                    if(commentTxt){
+                    commentsObj = JSON.parse(commentTxt); 
+                    for(var j=0;j<commentsObj.length;j++){
+                    var commentsDiv= document.getElementById("commentsDiv" + commentsObj[j].postId);
+                    commentsDiv.innerHTML += `<p text-align:right>`+ commentsObj[j].comment + `</p>`;
+                    }         
+                    }
+                }     
+            }
+        }
+    }
+};
+*/
+
+</script>
+</body>
+</html>

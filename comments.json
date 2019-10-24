@@ -1,0 +1,31 @@
+[
+    {
+        "userId": "1",
+        "postId":"1",
+        "comment": "In quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet."
+    },
+    {
+        "userId": "2",
+        "postId":"1",
+        "comment": "Donec diam neque, vestibulum eget, vulputate ut, ultrices vel, augue."
+
+    },
+    {
+        "userId": "3",
+        "postId":"1",
+        "comment": "vestibulum eget, vulputate ut, ultrices vel,"
+
+    },
+    {
+        "userId": "1",
+        "postId":"2",
+        "comment": "Donec diam neque, vestibulum eget,"
+
+    },
+    {
+        "userId": "2",
+        "postId":"2",
+        "comment": "In quis justo. Maecenas rhoncus aliquam lacus"
+
+    }
+]
