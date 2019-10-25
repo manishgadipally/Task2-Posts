@@ -1,0 +1,31 @@
+#container{
+    
+    
+    width: 500px;
+    background-color:rgb(255, 255, 255);
+    margin-left: 280px;
+    margin-top: 40px;
+    box-shadow: 10px;
+    border : 1px solid rgb(24, 99, 143);
+    display:inline-block;
+}
+hr{
+    border:2px solid rgb(131, 129, 129);
+}
+.display{
+    margin-left: 10px;
+    width: 450px;
+    font-family:'Times New Roman', Times, serif;
+}
+.commentPara{
+    background-color:aqua;
+}
+.commentUl{
+    border:1px solid rgb(131, 129, 129);
+
+}
+ .btn-success{
+    margin-top: 44px;
+    margin-left: 350px;
+
+}

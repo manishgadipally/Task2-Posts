@@ -1,0 +1,124 @@
+<!Doctype HTML>
+<html>
+    <head>
+        <title>Discussions</title>
+    <script src="jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+<body>
+        <div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h4 class="modal-title w-100 font-weight-bold">Write here!</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body mx-3">
+              <div class="md-form mb-5">
+                <i class="fas fa-user prefix grey-text"></i>
+                <input type="text" id="form3" class="form-control validate">
+                <label data-error="wrong" data-success="right" for="form3" id="title">Title</label>
+              </div>
+      
+              <div class="form-group">
+                      <label for="exampleFormControlTextarea1" id="subject">Body</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+      
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                  <button type="button" class="btn btn-primary" onclick="loadDoc()">Submit</button>
+                  <button type="button" class="btn btn-danger" class="close" data-dismiss="modal" aria-label="Close">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center">
+      
+              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalSubscriptionForm">Write a Post</button>
+          
+      </div>
+       <div id="demo1"></div>       
+<div id="container">
+
+
+</div>
+
+<script>
+    var userPromise = new Promise(function(resolve, reject) {
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://localhost:3000/users');
+  xhr.send();
+  xhr.onload = function() {
+  if (xhr.readyState == 4 && xhr.status == 200) { 
+     var responseText = xhr.responseText;
+	 if(responseText){
+		resolve(JSON.parse(responseText));
+	 }
+   }
+ };
+});
+
+userPromise.then(function(value) {
+var xhttp = new XMLHttpRequest();
+xhttp.open("GET", "http://localhost:3000/posts", true);
+xhttp.send();
+var commentsObj;
+xhttp.onload = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        let responseTxt= xhttp.responseText;
+        if(responseTxt){
+            var posts = JSON.parse(responseTxt);
+            var divContent="" ;
+            for(var i=0; i< posts.length;i++){
+                var user = usersObj.find(function(element) {
+                return element.userId == posts[i].userId;
+  
+                
+                     divContent +=  `<div class="display"><h6>userID:`+ posts[i].userId +`</h6>
+                                <h6>postId:`+ posts[i].id +`</h6>
+                              <h5>`+posts[i].title+`</h5>
+                                  <p>`+posts[i].body+`</p>
+                                  <div  id = "commentsDiv`+ posts[i].id+`"><b>Comments:</b></div>  
+                                   <a href style="margin-left: 420px;">Reply</a>     
+                                <hr>
+                                <p>user:` + user.name +` <p>
+                            </div>`; 
+                            
+                        });
+            }
+            document.getElementById("container").innerHTML =  divContent ;
+            var xhr= new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:3000/comments?postId=3", true);
+            xhr.send();
+            xhr.onload = function() {
+                if(this.readyState==4 && this.status==200){
+                    var commentTxt= xhr.responseText;
+                    if(commentTxt){
+                    commentsObj = JSON.parse(commentTxt); 
+                    for(var j=0;j<commentsObj.length;j++){
+                    var commentsDiv= document.getElementById("commentsDiv" + commentsObj[j].id);
+                    commentsDiv.innerHTML += `<p class="commentPara">`+ commentsObj[j].body + `</p> <hr class = "commentUl">`;
+                    }         
+                    }
+                }     
+            }
+            
+            
+
+        }
+    }
+};
+});
+
+</script>
+
+<script src="js/bootstrap.min.js"></script>
+
+    </body>
+</html>
