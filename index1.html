@@ -50,7 +50,7 @@
 <script>
     var userPromise = new Promise(function(resolve, reject) {
   let xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://localhost:3000/users');
+  xhr.open('GET', 'users.json');
   xhr.send();
   xhr.onload = function() {
   if (xhr.readyState == 4 && xhr.status == 200) { 
@@ -64,7 +64,7 @@
 
 userPromise.then(function(usersObj) {
 var xhttp = new XMLHttpRequest();
-xhttp.open("GET", "http://localhost:3000/posts", true);
+xhttp.open("GET", "posts.json", true);
 xhttp.send();
 var commentsObj;
 xhttp.onload = function() {
@@ -75,7 +75,7 @@ xhttp.onload = function() {
             var divContent="" ;
             for(var i=0; i< posts.length;i++){
                 var user = usersObj.find(function(element) {
-                  return element.userId == posts[i].userId;
+                  return element.id == posts[i].userId;
                 });
                 
                 divContent +=  `<div class="display"><h6>userID:`+ user.name +`</h6>
@@ -100,7 +100,7 @@ xhttp.onload = function() {
                     commentsObj = JSON.parse(commentTxt); 
                     for(var j=0;j<commentsObj.length;j++){
                       var user = usersObj.find(function(element) {
-                         return element.userId == commentsObj[j].userId;
+                        return element.id == posts[i].userId;
                       });
 
                       var commentsDiv= document.getElementById("commentsDiv" + commentsObj[j].id);
