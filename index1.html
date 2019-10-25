@@ -99,8 +99,12 @@ xhttp.onload = function() {
                     if(commentTxt){
                     commentsObj = JSON.parse(commentTxt); 
                     for(var j=0;j<commentsObj.length;j++){
-                    var commentsDiv= document.getElementById("commentsDiv" + commentsObj[j].id);
-                     commentsDiv.innerHTML += `<p class="commentPara">`+ commentsObj[j].body + `</p> <hr class = "commentUl">`;
+                      var user = usersObj.find(function(element) {
+                         return element.userId == commentsObj[j].userId;
+                      });
+
+                      var commentsDiv= document.getElementById("commentsDiv" + commentsObj[j].id);
+                      commentsDiv.innerHTML += `<p class="commentPara">`+ commentsObj[j].body + `-`  + user.name +`</p> <hr class = "commentUl">`;
                     }         
                   }
                 }     
